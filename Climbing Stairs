@@ -1,0 +1,33 @@
+//Suppose we have 3 steps (n=3). We can either get to step 2 and to step 3, or we can skip step 2 and go directly from 1 to 3. For the first case, there are exactly f(2) ways of going to step 3 while stepping on 2, since from step 2 there is only one way of getting to step 3. For the second case, we could have jumped over step 2. There would be f(1) ways of getting to step 1, and only one way from there to get to step 3 without stepping on 2. Therefore the total number of ways for getting to 3 is f(2)+f(1). QED.
+
+This can be generalized by changing 1,2,3 in my example for n-2, n-1 and n respectively.
+
+Intuition :
+Each time either we can jump 1 step or two step so here we have choices we can think of recursion.
+in the question total no of ways is asked to summing up all the recursion calls will give our ans
+Approach :
+we just have to think of two recursion calls (1 step or two step jump) and think of base cases
+suppose we are at nth stair now we are going in reverse direction
+i.e. from nth to 0th stair
+as we have to jump 1 step or two step so two recursion calls will be there rec(n-1) , rec(n-2)
+here we are doing n-2 so n might becomes negative we have to take care of this as well
+whenever we will reach at 0th stair we will get one ans(return 1) when n becomes negative we have to return 0
+finally sum up (because total no of ways is asked) both the recursion calls and memoize it to get ans
+
+
+class Solution {
+public:
+int climbStairsMem(vector<int>&dp,int n){
+       
+        if(n==0 || n==1)
+        return 1;
+        if(dp[n]!=-1)
+        return dp[n];
+       dp[n]  = climbStairsMem(dp,n-1) + climbStairsMem(dp,n-2);
+       return dp[n];
+}
+    int climbStairs(int n) {
+       vector<int>dp(n+1,-1);
+       return climbStairsMem(dp,n);
+    }
+};
